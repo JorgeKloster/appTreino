@@ -1,0 +1,68 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Voltar" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Inclusão de Treino</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-item>
+    <ion-select label="Grupo Muscular" placeholder="Selecione o Grupo" [(ngModel)]="grupoMusc">
+      <ion-select-option value="Peito">Peito</ion-select-option>
+      <ion-select-option value="Costas">Costas</ion-select-option>
+      <ion-select-option value="Braço">Braço</ion-select-option>
+      <ion-select-option value="Pernas">Pernas</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-select label="Dia da Semana" placeholder="Selecione o Dia" [(ngModel)]="diaSemana">
+      <ion-select-option value="Segunda-Feira">Segunda-Feira</ion-select-option>
+      <ion-select-option value="Terça-Feira">Terça-Feira</ion-select-option>
+      <ion-select-option value="Quarta-Feira">Quarta-Feira</ion-select-option>
+      <ion-select-option value="Quinta-Feira">Quinta-Feira</ion-select-option>
+      <ion-select-option value="Sexta-Feira">Sexta-Feira</ion-select-option>
+      <ion-select-option value="Sábado">Sábado</ion-select-option>
+      <ion-select-option value="Domingo">Domingo</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Horário</ion-label>
+    <ion-label>
+      <ion-datetime-button datetime="horario"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime id="horario" presentation="time" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"
+          [(ngModel)]="horario">
+            <span slot="title">Selecione o horário</span>
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Duração do Treino</ion-label>
+    <ion-label>
+      <ion-datetime-button datetime="duracao"></ion-datetime-button>
+      <ion-modal [keepContentsMounted]="true">
+        <ng-template>
+          <ion-datetime id="duracao" presentation="time" [showDefaultButtons]="true" doneText="Confirmar" cancelText="Cancelar"
+          hourValues="0,1,2,3" minuteValues="00,30" [(ngModel)]="duracao">
+            <span slot="title">Selecione o Tempo</span>
+          </ion-datetime>
+        </ng-template>
+      </ion-modal>
+    </ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-button size="default" color="success" shape="round" >
+      <input type="file" (change)="uploadFile($event.target)" />
+    </ion-button>
+  </ion-item>
+
+  <ion-button expand="full" (click)="incluir()">Incluir</ion-button>
+</ion-content>

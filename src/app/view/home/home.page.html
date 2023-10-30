@@ -1,0 +1,23 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Programação de Treinos
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-list *ngFor="let treino of this.listaDeTreinos, let i = index">
+    <ion-item (click)="detalhar(treino)">
+      <ion-avatar><img src="{{treino.downloadURL}}" /></ion-avatar>
+        <ion-label>{{treino.diaSemana}}</ion-label>
+        <ion-label>{{treino.grupoMusc}}</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end">
+    <ion-fab-button (click)="irParaIncluir()">
+      <ion-icon name="add"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

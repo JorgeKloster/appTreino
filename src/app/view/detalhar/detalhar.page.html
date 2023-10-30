@@ -1,0 +1,46 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button text="Voltar" defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Detalhes do treino</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+
+  <ion-item>
+    <ion-label>Grupo Múscular</ion-label>
+    <ion-label>{{grupoMusc}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Dia da Semana</ion-label>
+    <ion-label>{{diaSemana}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Horário</ion-label>
+    <ion-label>{{horario.split('T')[1]}}</ion-label>
+  </ion-item>
+
+  <ion-item>
+    <ion-label>Duração do Treino</ion-label>
+    <ion-label>{{duracao.split('T')[1]}}</ion-label>
+  </ion-item>
+
+
+  <ion-list *ngFor="let exercicios of this.listaDeExercicios">
+    <ion-item *ngIf="exercicios.grupoMusc == this.grupoMusc">
+      <ion-label>{{exercicios.exercicio}}</ion-label>
+      <ion-label>{{exercicios.series}} series</ion-label>
+      <ion-label>{{exercicios.repeticoes}} Repetições</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-item>
+    <img src="{{treino.downloadURL}}" />
+  </ion-item>
+
+  <ion-button expand="full" color="danger" (click)="editarExcluir(treino)">Editar/Excluir</ion-button>
+</ion-content>
