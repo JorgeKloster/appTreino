@@ -1,0 +1,7 @@
+{
+  "name": "appTreino",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
