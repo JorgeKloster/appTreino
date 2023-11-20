@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { Treino } from 'src/app/model/entities/Treino';
+import { AuthService } from 'src/app/model/services/auth.service';
 import { FirebaseService } from 'src/app/model/services/firebase.service';
 
 @Component({
@@ -14,8 +15,10 @@ export class HomePage {
 
   constructor(
     private router : Router,
+    private auth : AuthService,
     private firebase : FirebaseService
     ) {
+    console.log(this.auth.getUsuarioLogado());
     this.firebase.mostrarTodos()
     .subscribe(res => {
       this.listaDeTreinos = res.map(treino => {

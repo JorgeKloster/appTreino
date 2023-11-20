@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, Injector } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 import { Treino } from '../entities/Treino';
 import { finalize } from 'rxjs/operators';
 import { AngularFireStorage } from '@angular/fire/compat/storage';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -10,23 +11,33 @@ import { AngularFireStorage } from '@angular/fire/compat/storage';
 export class FirebaseService {
   private PATHtreino : string = "treino";
   private PATHexercicios : string = "exercicio";
+  user : any;
 
   constructor(private firestore : AngularFirestore,
+    @Inject(Injector) private readonly injector : Injector,
     private storage : AngularFireStorage) { }
+
+    private injectAuthService(){
+      return this.injector.get(AuthService);
+    }
 
   incluir(treino: Treino) {
     return this.firestore.collection(this.PATHtreino)
     .add({grupoMusc : treino.grupoMusc, diaSemana : treino.diaSemana,
-    horario : treino.horario, duracao : treino.duracao, downloadURL : treino.downloadURL});
+    horario : treino.horario, duracao : treino.duracao, downloadURL : treino.downloadURL,
+    uid : treino.uid});
   }
   mostrarTodos() {
-    return this.firestore.collection(this.PATHtreino).snapshotChanges();
+    this.user = this.injectAuthService().getUsuarioLogado();
+    return this.firestore.collection(this.PATHtreino,
+      ref => ref.where('uid','==', this.user.uid)).snapshotChanges();
   }
  
   atualizar(treino : Treino , id : string){
     return this.firestore.collection(this.PATHtreino).doc(id)
     .update({grupoMusc : treino.grupoMusc, diaSemana : treino.diaSemana,
-      horario : treino.horario, duracao : treino.duracao, downloadURL : treino.downloadURL});
+      horario : treino.horario, duracao : treino.duracao, downloadURL : treino.downloadURL,
+      uid : treino.uid});
   }
   
   deletar(id : string){

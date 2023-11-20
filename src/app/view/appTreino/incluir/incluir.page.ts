@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AlertController } from '@ionic/angular';
+import { Alert } from 'src/app/commom/alert';
 import { Treino } from 'src/app/model/entities/Treino';
+import { AuthService } from 'src/app/model/services/auth.service';
 import { FirebaseService } from 'src/app/model/services/firebase.service';
 
 @Component({
@@ -16,10 +17,14 @@ export class IncluirPage implements OnInit {
   public horario! : string;
   public duracao! : string;
   public imagem! : any;
+  user : any;
 
   constructor(private router : Router,
+    private auth : AuthService,
     private firebase : FirebaseService,
-    private alertController : AlertController) { }
+    private alert : Alert) { 
+      this.user = this.auth.getUsuarioLogado();
+    }
 
   ngOnInit() {
   }
@@ -33,6 +38,7 @@ export class IncluirPage implements OnInit {
       let novo : Treino = new Treino(this.grupoMusc, this.diaSemana);
       novo.horario = this.horario;
       novo.duracao = this.duracao;
+      novo.uid = this.user.uid;
       if(this.imagem){
         this.firebase.inserirFoto(this.imagem, novo)
         ?.then(()=> {
@@ -43,24 +49,13 @@ export class IncluirPage implements OnInit {
         .then(()=> this.router.navigate(["/home"]))
         .catch((error) => {
           console.log(error);
-          this.presentAlert("Erro", "Erro ao salvar treino!");
+          this.alert.presentAlert("Erro", "Erro ao salvar treino!");
         })
         this.router.navigate(["/home"]);
       }
     }else{
-      this.presentAlert("erro", "Grupo Muscular e Dia da Semana são campos obrigatórios");
+      this.alert.presentAlert("erro", "Grupo Muscular e Dia da Semana são campos obrigatórios");
     }
-  }
-
-  async presentAlert(subHeader: string, message: string) {
-    const alert = await this.alertController.create({
-      header: 'Agenda de Contatos',
-      subHeader: subHeader,
-      message: message,
-      buttons: ['OK'],
-    });
-  
-    await alert.present();
   }
 
 }

@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController } from '@ionic/angular';
+import { Alert } from 'src/app/commom/alert';
 import { Treino } from 'src/app/model/entities/Treino';
+import { AuthService } from 'src/app/model/services/auth.service';
 import { FirebaseService } from 'src/app/model/services/firebase.service';
 
 @Component({
@@ -16,11 +18,16 @@ export class EditarPage implements OnInit {
   duracao! : string;
   treino! : Treino;
   imagem! : any;
+  user : any;
 
   constructor(
-    private alertController : AlertController,
+    private alert : Alert,
     private router : Router,
-    private firebase : FirebaseService) { }
+    private firebase : FirebaseService,
+    private alertController : AlertController,
+    private auth : AuthService) {
+      this.user = this.auth.getUsuarioLogado();
+     }
 
   ngOnInit() {
     this.treino = history.state.treino;
@@ -40,6 +47,7 @@ export class EditarPage implements OnInit {
       novo.horario = this.horario;
       novo.duracao = this.duracao;
       novo.id = this.treino.id;
+      novo.uid = this.user.uid;
       if(this.imagem){
         this.firebase.inserirFoto(this.imagem, novo)
         ?.then(()=> {
@@ -51,12 +59,12 @@ export class EditarPage implements OnInit {
         .then(()=> this.router.navigate(["/home"]))
         .catch((error) => {
           console.log(error);
-          this.presentAlert("Erro", "Erro ao salvar treino!");
+          this.alert.presentAlert("Erro", "Erro ao salvar treino!");
         })
         this.router.navigate(["/home"]);
       }
     }else{
-      this.presentAlert("erro", "Grupo Muscular e Dia da Semana são campos obrigatórios");
+      this.alert.presentAlert("erro", "Grupo Muscular e Dia da Semana são campos obrigatórios");
     }
   }
 
@@ -82,16 +90,4 @@ export class EditarPage implements OnInit {
     });
     await alert.present();
   }
-
-  async presentAlert(subHeader: string, message: string) {
-    const alert = await this.alertController.create({
-      header: 'Agenda de Contatos',
-      subHeader: subHeader,
-      message: message,
-      buttons: ['OK'],
-    });
-  
-    await alert.present();
-  }
-  
 }

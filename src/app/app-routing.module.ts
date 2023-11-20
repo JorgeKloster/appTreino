@@ -4,24 +4,32 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
   {
     path: 'home',
-    loadChildren: () => import('./view/home/home.module').then( m => m.HomePageModule)
+    loadChildren: () => import('./view/appTreino/home/home.module').then( m => m.HomePageModule)
   },
   {
     path: '',
-    redirectTo: 'home',
+    redirectTo: 'login',
     pathMatch: 'full'
   },
   {
     path: 'incluir',
-    loadChildren: () => import('./view/incluir/incluir.module').then( m => m.IncluirPageModule)
+    loadChildren: () => import('./view/appTreino/incluir/incluir.module').then( m => m.IncluirPageModule)
   },
   {
     path: 'detalhar',
-    loadChildren: () => import('./view/detalhar/detalhar.module').then( m => m.DetalharPageModule)
+    loadChildren: () => import('./view/appTreino/detalhar/detalhar.module').then( m => m.DetalharPageModule)
   },
   {
     path: 'editar',
-    loadChildren: () => import('./view/editar/editar.module').then( m => m.EditarPageModule)
+    loadChildren: () => import('./view/appTreino/editar/editar.module').then( m => m.EditarPageModule)
+  },
+  {
+    path: 'login',
+    loadChildren: () => import('./view/usuario/login/login.module').then( m => m.LoginPageModule)
+  },
+  {
+    path: 'registro',
+    loadChildren: () => import('./view/usuario/registro/registro.module').then( m => m.RegistroPageModule)
   },
 ];
 

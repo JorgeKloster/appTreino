@@ -7,7 +7,7 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list *ngFor="let treino of this.listaDeTreinos, let i = index">
+  <ion-list *ngFor="let treino of this.listaDeTreinos">
     <ion-item (click)="detalhar(treino)">
       <ion-avatar><img src="{{treino.downloadURL}}" /></ion-avatar>
         <ion-label>{{treino.diaSemana}}</ion-label>
